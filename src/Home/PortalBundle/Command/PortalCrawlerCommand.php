@@ -2,13 +2,15 @@
 
 namespace Home\PortalBundle\Command;
 
-use Home\PortalBundle\Entity\Restaurant;
-use Home\PortalBundle\Model\Driver\EpicPermanentMenuDriver;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Response;
+
+use Home\PortalBundle\Entity\Menu;
+use Home\PortalBundle\Model\Driver\EpicPermanentMenuDriver;
 
 class PortalCrawlerCommand extends ContainerAwareCommand
 {
@@ -24,27 +26,18 @@ class PortalCrawlerCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $epicMenu = $this->getEpicMenuDriver()->setMenu();
+        $epicMenu = $this->getEpicMenuDriver()->getMenu();
         $entityManager = $this->getDoctrine()->getManager();
-        $restaurantDataProvider = $this->getRestaurantDataProvider();
-        $dataEpic = $restaurantDataProvider->getDataEpic();
-        var_dump($epicMenu);
-        die();
-        $menu = new Restaurant();
-        $menu->setAddress('Etlap');
-        $menu->setPhoneNumber('Kedd');
-        $menu->setRestaurantTitle(1);
-        $menu->setUrl(1);
 
-//        $entityManager->persist($product);
-//        $entityManager->find("menu", 1);
+        $menu = new Menu();
+        $menu->setDay($this->getEpicMenuDriver()->getDay());
+        $menu->setRestaurantId($this->getEpicMenuDriver()->getRestaurantId());
+        $menu->setText($epicMenu);
 
-        $query = $entityManager->createQuery("SET LOCK MODE TO WAIT 120");
-//        $users = $query->getResult();
+        $entityManager->persist($menu);
+        $entityManager->flush();
 
-//        $entityManager->flush();
-
-//        return new Response('Saved new product with id '.$product->getMenuId());
+        return new Response('Saved new menu with id '. $menu->getMenuId());
 
         $argument = $input->getArgument('argument');
 
@@ -52,8 +45,7 @@ class PortalCrawlerCommand extends ContainerAwareCommand
             // ...
         }
 
-        $output->writeln('Command result.' . $dataEpic['phoneNumber'] . $dataEpic['address'] . $dataEpic['url']);
-//        $output->writeln('Command result.');
+        $output->writeln('Command result.');
     }
 
     /**
@@ -63,6 +55,9 @@ class PortalCrawlerCommand extends ContainerAwareCommand
         return $this->getContainer()->get('doctrine');
     }
 
+    /**
+     * @return EpicPermanentMenuDriver
+     */
     protected function getEpicMenuDriver() {
         return new EpicPermanentMenuDriver();
     }

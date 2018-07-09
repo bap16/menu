@@ -1,3 +1,5 @@
 <?php
 
-var_dump($menu);
+/** $menu Menu */
+
+var_dump($menu->getText());

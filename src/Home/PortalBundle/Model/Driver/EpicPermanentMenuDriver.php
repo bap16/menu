@@ -11,7 +11,7 @@ class EpicPermanentMenuDriver implements RestaurantMenuInterface
     /**
      * @return array
      */
-    public function setMenu() {
+    public function getMenu() {
         $menu = [];
         $url = 'http://epic.co.hu/dohany-utca/etlap/';
         $html = file_get_contents($url);
@@ -35,16 +35,23 @@ class EpicPermanentMenuDriver implements RestaurantMenuInterface
     /**
      * @return int
      */
-    public function setRestaurantId()
+    public function getRestaurantId()
     {
         return 1;
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function setDay()
+    public function getDay()
     {
-        return new \DateTime('now');
+        $date = new \DateTime('now');
+        $result = $date->format('Y-m-d H:i:s');
+
+        if ($result) {
+            return $result;
+        } else {
+            return "Unknown Time";
+        }
     }
 }

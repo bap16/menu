@@ -4,9 +4,9 @@ namespace Home\PortalBundle\Model\MenuInterface;
 
 interface RestaurantMenuInterface {
 
-    public function setMenu();
+    public function getMenu();
 
-    public function setRestaurantId();
+    public function getRestaurantId();
 
-    public function setDay();
+    public function getDay();
 }
