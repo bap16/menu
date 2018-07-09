@@ -6,18 +6,18 @@ use Symfony\Component\DomCrawler\Crawler;
 
 use Home\PortalBundle\Model\MenuInterface\RestaurantMenuInterface;
 
-class EpicPermanentMenuDriver implements RestaurantMenuInterface
+class PastaBellaMenuDriver implements RestaurantMenuInterface
 {
     /**
      * @return array
      */
     public function getMenu() {
         $menu = [];
-        $url = 'http://epic.co.hu/dohany-utca/etlap/';
+        $url = 'http://www.pastabella.hu/etlap/index.php';
         $html = file_get_contents($url);
         $crawler = new Crawler($html);
 
-        $crawler = $crawler->filter('.rp-title-price-wrap');
+        $crawler = $crawler->filter('.isoboxinner');
         $nodeValues = $crawler->each(
             function (Crawler $node, $i) {
                 $first = trim($node->children()->first()->text());

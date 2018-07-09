@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 use Home\PortalBundle\Entity\Menu;
+use Home\PortalBundle\Model\Driver\PastaBellaMenuDriver;
 use Home\PortalBundle\Model\Driver\EpicPermanentMenuDriver;
 
 class PortalCrawlerCommand extends ContainerAwareCommand
@@ -28,6 +29,10 @@ class PortalCrawlerCommand extends ContainerAwareCommand
     {
         $epicMenu = $this->getEpicMenuDriver()->getMenu();
         $entityManager = $this->getDoctrine()->getManager();
+
+        $pb = $this->getPastaBellaMenuDriver()->getMenu();
+        var_dump($pb);
+        die();
 
         $menu = new Menu();
         $menu->setDay($this->getEpicMenuDriver()->getDay());
@@ -60,5 +65,12 @@ class PortalCrawlerCommand extends ContainerAwareCommand
      */
     protected function getEpicMenuDriver() {
         return new EpicPermanentMenuDriver();
+    }
+
+    /**
+     * @return PastaBellaMenuDriver
+     */
+    protected function getPastaBellaMenuDriver() {
+        return new PastaBellaMenuDriver();
     }
 }

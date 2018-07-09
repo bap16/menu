@@ -2,6 +2,6 @@ portal_homepage:
     path:     /
     defaults: { _controller: PortalBundle:Default:index }
 
-try:
-    path:     /try
-    defaults: { _controller: PortalBundle:Default:create }
+epic:
+    path:     /epic
+    defaults: { _controller: PortalBundle:Default:createEpic }

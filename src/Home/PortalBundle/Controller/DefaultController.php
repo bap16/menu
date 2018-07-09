@@ -11,7 +11,7 @@ class DefaultController extends Controller
         return $this->render('PortalBundle:Default:index.html.php');
     }
 
-    public function createAction()
+    public function createEpicAction()
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -21,7 +21,7 @@ class DefaultController extends Controller
         $entityManager->flush();
 
         return $this->render(
-            'PortalBundle:Default:create.html.php',
+            'PortalBundle:Default:createEpic.html.php',
             array('menu' => $menu)
         );
     }

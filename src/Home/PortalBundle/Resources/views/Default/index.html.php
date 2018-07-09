@@ -5,8 +5,13 @@
 
 <ul>
     <li>
-        <a href="<?= 'try' ?>">
+        <a href="<?= 'epic' ?>">
             <?= 'Epic' ?>
+        </a>
+    </li>
+    <li>
+        <a href="<?= 'try' ?>">
+            <?= 'Pasta Bella' ?>
         </a>
     </li>
 </ul>
