@@ -99,7 +99,7 @@ class Menu
      */
     public function setText($text)
     {
-        $this->text = $text;
+        $this->text = serialize($text);
 
         return $this;
     }
@@ -111,7 +111,7 @@ class Menu
      */
     public function getText()
     {
-        return $this->text;
+        return unserialize($this->text);
     }
 
     /**
