@@ -8,7 +8,11 @@ use Home\PortalBundle\Model\MenuInterface\RestaurantMenuInterface;
 
 class EpicPermanentMenuDriver implements RestaurantMenuInterface
 {
-    public function getDomData() {
+    /**
+     * @return array
+     */
+    public function setMenu() {
+        $menu = [];
         $url = 'http://epic.co.hu/dohany-utca/etlap/';
         $html = file_get_contents($url);
         $crawler = new Crawler($html);
@@ -17,27 +21,30 @@ class EpicPermanentMenuDriver implements RestaurantMenuInterface
         $crawler = $crawler->filter('.rp-title-price-wrap');
         $nodeValues = $crawler->each(
             function (Crawler $node, $i) {
-                $first = $node->children()->first()->text();
-                $last = $node->children()->last()->text();
+                $first = trim($node->children()->first()->text());
+                $last = trim($node->children()->last()->text());
                 return array($first, $last);
             }
         );
-
-        return $nodeValues;
+        foreach ($nodeValues as $key => $nodeValue) {
+            $menu[$key] = ['name' => $nodeValue[0], 'price' => $nodeValue[1]];
+        }
+        return $menu;
     }
 
+    /**
+     * @return int
+     */
     public function setRestaurantId()
     {
-        // TODO: Implement setRestaurantId() method.
+        return 1;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function setDay()
     {
-        // TODO: Implement setDay() method.
-    }
-
-    public function setText()
-    {
-        // TODO: Implement setText() method.
+        return new \DateTime('now');
     }
 }
