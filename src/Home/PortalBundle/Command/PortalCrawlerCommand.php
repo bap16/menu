@@ -28,21 +28,12 @@ class PortalCrawlerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $epicMenu = $this->getEpicMenuDriver()->getMenu();
-        $entityManager = $this->getDoctrine()->getManager();
+        $pastaBellaMenu = $this->getPastaBellaMenuDriver()->getMenu();
 
-        $pb = $this->getPastaBellaMenuDriver()->getMenu();
-        var_dump($pb);
-        die();
+        $menuIdEpic = $this->sendData($this->getEpicMenuDriver()->getDay(), $this->getEpicMenuDriver()->getRestaurantId(), $epicMenu);
+        $menuIdPastaBella = $this->sendData($this->getPastaBellaMenuDriver()->getDay(), $this->getPastaBellaMenuDriver()->getRestaurantId(), $epicMenu);
 
-        $menu = new Menu();
-        $menu->setDay($this->getEpicMenuDriver()->getDay());
-        $menu->setRestaurantId($this->getEpicMenuDriver()->getRestaurantId());
-        $menu->setText($epicMenu);
-
-        $entityManager->persist($menu);
-        $entityManager->flush();
-
-        return new Response('Saved new menu with id '. $menu->getMenuId());
+        return new Response('Saved new menu with id '. $menuIdEpic);
 
         $argument = $input->getArgument('argument');
 
@@ -72,5 +63,25 @@ class PortalCrawlerCommand extends ContainerAwareCommand
      */
     protected function getPastaBellaMenuDriver() {
         return new PastaBellaMenuDriver();
+    }
+
+    /**
+     * @param $day
+     * @param $restaurantId
+     * @param $crawledMenu
+     * @return int
+     */
+    protected function sendData($day, $restaurantId, $crawledMenu) {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $menu = new Menu();
+        $menu->setDay($day);
+        $menu->setRestaurantId($restaurantId);
+        $menu->setText($crawledMenu);
+
+        $entityManager->persist($menu);
+        $entityManager->flush();
+
+        return $menu->getMenuId();
     }
 }
