@@ -10,7 +10,7 @@
         </a>
     </li>
     <li>
-        <a href="<?= 'try' ?>">
+        <a href="<?= 'pasta_bella' ?>">
             <?= 'Pasta Bella' ?>
         </a>
     </li>

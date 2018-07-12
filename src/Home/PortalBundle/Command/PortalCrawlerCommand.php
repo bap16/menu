@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Home\PortalBundle\Entity\Menu;
 use Home\PortalBundle\Model\Driver\PastaBellaMenuDriver;
 use Home\PortalBundle\Model\Driver\EpicPermanentMenuDriver;
+use Home\PortalBundle\Model\Driver\RubenPermanentMenuDriver;
 
 class PortalCrawlerCommand extends ContainerAwareCommand
 {
@@ -19,7 +20,7 @@ class PortalCrawlerCommand extends ContainerAwareCommand
     {
         $this
             ->setName('portal:crawler')
-            ->setDescription('...')
+            ->setDescription('DomCrawler on restaurant1s site')
             ->addArgument('argument', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('option', null, InputOption::VALUE_NONE, 'Option description')
         ;
@@ -29,11 +30,12 @@ class PortalCrawlerCommand extends ContainerAwareCommand
     {
         $epicMenu = $this->getEpicMenuDriver()->getMenu();
         $pastaBellaMenu = $this->getPastaBellaMenuDriver()->getMenu();
+        $rubenPermanentMenu = $this->getRubenPermanentMenuDriver()->getMenu();
 
         $menuIdEpic = $this->sendData($this->getEpicMenuDriver()->getDay(), $this->getEpicMenuDriver()->getRestaurantId(), $epicMenu);
-        $menuIdPastaBella = $this->sendData($this->getPastaBellaMenuDriver()->getDay(), $this->getPastaBellaMenuDriver()->getRestaurantId(), $epicMenu);
+        $menuIdPastaBella = $this->sendData($this->getPastaBellaMenuDriver()->getDay(), $this->getPastaBellaMenuDriver()->getRestaurantId(), $pastaBellaMenu);
 
-        return new Response('Saved new menu with id '. $menuIdEpic);
+        return new Response('Saved new menu with id '. $menuIdEpic . ' and ' . $menuIdPastaBella);
 
         $argument = $input->getArgument('argument');
 
@@ -63,6 +65,14 @@ class PortalCrawlerCommand extends ContainerAwareCommand
      */
     protected function getPastaBellaMenuDriver() {
         return new PastaBellaMenuDriver();
+    }
+
+    /**
+     * @return RubenPermanentMenuDriver
+     */
+    protected function getRubenPermanentMenuDriver()
+    {
+        return new RubenPermanentMenuDriver();
     }
 
     /**

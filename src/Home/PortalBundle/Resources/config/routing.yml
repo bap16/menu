@@ -5,3 +5,7 @@ portal_homepage:
 epic:
     path:     /epic
     defaults: { _controller: PortalBundle:Default:createEpic }
+
+pasta_bella:
+    path:     /pasta_bella
+    defaults: { _controller: PortalBundle:Default:createPastaBella }

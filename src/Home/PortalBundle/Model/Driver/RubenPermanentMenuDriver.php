@@ -6,18 +6,18 @@ use Symfony\Component\DomCrawler\Crawler;
 
 use Home\PortalBundle\Model\MenuInterface\RestaurantMenuInterface;
 
-class PastaBellaMenuDriver implements RestaurantMenuInterface
+class RubenPermanentMenuDriver implements RestaurantMenuInterface
 {
     /**
      * @return array
      */
     public function getMenu() {
         $menu = [];
-        $url = 'http://www.pastabella.hu/etlap/index.php';
+        $url = 'http://www.rubenrestaurant.hu/eteleink';
         $html = file_get_contents($url);
         $crawler = new Crawler($html);
 
-        $crawler = $crawler->filter('.isoboxinner');
+        $crawler = $crawler->filter('.list');
         $nodeValues = $crawler->each(
             function (Crawler $node, $i) {
                 $first = trim($node->children()->first()->text());
@@ -36,7 +36,7 @@ class PastaBellaMenuDriver implements RestaurantMenuInterface
      */
     public function getRestaurantId()
     {
-        return 2;
+        return 3;
     }
 
     /**

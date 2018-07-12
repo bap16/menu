@@ -26,6 +26,21 @@ class DefaultController extends Controller
         );
     }
 
+    public function createPastaBellaAction()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $menus = $entityManager->getRepository('PortalBundle:Menu')->findAll();
+        $menu = $entityManager->find('PortalBundle:Menu', 3);
+
+        $entityManager->flush();
+
+        return $this->render(
+            'PortalBundle:Default:createEpic.html.php',
+            array('menu' => $menu)
+        );
+    }
+
 // if you have multiple entity managers, use the registry to fetch them
     public function editAction()
     {
