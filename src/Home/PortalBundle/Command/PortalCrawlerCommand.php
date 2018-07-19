@@ -20,7 +20,7 @@ class PortalCrawlerCommand extends ContainerAwareCommand
     {
         $this
             ->setName('portal:crawler')
-            ->setDescription('DomCrawler on restaurant1s site')
+            ->setDescription('DomCrawler on restaurants site')
             ->addArgument('argument', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('option', null, InputOption::VALUE_NONE, 'Option description')
         ;
