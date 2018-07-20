@@ -1,5 +1,6 @@
 <?php
 
+$view->extend('PortalBundle:Default:base.html.php');
 
 ?>
 
